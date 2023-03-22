@@ -1,0 +1,47 @@
+<section class="temperatura-section section-padding" id="temperatura">
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-12 text-center">
+                <h1 class="mb-4">Temperatura</h1>
+            </div>
+
+            <div class="col-lg-5 col-12">
+                <div class="temperatura-thumb">
+                    <div class="temperatura-image-wrap">
+                        <h2 class="temperatura-image img-fluid">Celsius</h2>
+                    </div>
+
+                    <div><br><br><br><br><br><br><br></div>
+
+                    <div class="temperatura-hover text-center">
+                        <h2 id="tempC">
+                            <strong>...</strong>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5 col-12">
+                <div class="temperatura-thumb">
+                    <div class="temperatura-image-wrap">
+                        <h2 class="temperatura-image img-fluid">Fahrenheit</h2>
+                    </div>
+
+                    <div><br><br><br><br><br><br><br></div>
+
+                    <div class="temperatura-hover">
+                        <h2 id="tempF">
+                            <strong>...</strong>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    import { getTemperaturaC, getTemperaturaF } from "js/fetch.js";
+
+    document.getElementById("tempC").innerHTML = getTemperaturaC;
+</script>

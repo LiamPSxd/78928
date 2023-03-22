@@ -1,0 +1,40 @@
+<section class="indiceCalor-section section-padding" id="indice">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-12 mx-auto">
+                <h1 class="text-center mb-4">Índice de Calor</h1>
+
+                <nav class="d-flex justify-content-center">
+                    <div class="nav nav-tabs align-items-baseline justify-content-center" id="nav-tab" role="tablist">
+                        <button class="nav-link active" id="nav-ContactForm-tab" data-bs-toggle="tab"
+                            data-bs-target="#nav-ContactForm" type="button" role="tab"
+                            aria-controls="nav-ContactForm" aria-selected="false" onclick="indiceC()">
+                            <h4>Celsius</h4>
+                        </button>
+
+                        <button class="nav-link" id="nav-ContactMap-tab" data-bs-toggle="tab"
+                            data-bs-target="#nav-ContactMap" type="button" role="tab"
+                            aria-controls="nav-ContactMap" aria-selected="false" onclick="indiceF()">
+                            <h4>Fahrenheit</h4>
+                        </button>
+                    </div>
+                </nav>
+
+                <div class="tab-content shadow-lg mt-5" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-indiceForm" role="tabpanel" aria-labelledby="nav-indiceForm-tab">
+                        <form class="custom-form indice-form mb-5 mb-lg-0" action="#" method="post"
+                            role="form">
+                            <div class="indice-form-body">
+                                <div class="col-lg-4 col-md-10 col-8 mx-auto text-center">
+                                    <h3 id="indiceText">...</h3>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/fetch.js"></script>
+</section>
