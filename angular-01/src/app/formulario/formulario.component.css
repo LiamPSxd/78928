@@ -1,0 +1,13 @@
+button{
+    border-radius: 30px;
+    border-color: transparent;
+}
+
+label{
+    font-weight: bold;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+input{
+    border-radius: 30px;
+}
