@@ -1,6 +1,6 @@
 allow_anonymous true
-listener 1883
-listener 9001
+listener 1883 0.0.0.0
+listener 9001 0.0.0.0
 protocol websockets
 
 //docker run -it --rm -p 1883:1883 -p 9001:9001 -v c:\websocket\mosquito:/mosquitto/config/mosquitto.conf eclipse-mosquitto
