@@ -6,20 +6,20 @@
 #define DHTpin 15
 DHTesp dht;
 
-const char* ssid = "OPPO A54";
-const char* password = "ranita321";
-const char* mqtt_server = "https://ip172-18-0-53-ch5v53qe69v000f953ig@direct.labs.play-with-docker.com";
+const char* ssid = "CatBenderson";
+const char* password = "ranita987";
+const char* mqtt_server = "192.168.246.237";
 
 WiFiClient espClient;
 PubSubClient client(espClient);
 unsigned long lastMsg = 0;
-#define MSG_BUFFER_SIZE	(50)
+#define MSG_BUFFER_SIZE (50)
 char msg[MSG_BUFFER_SIZE];
-int value = 0;
+float value = 19.55;
 int id = 0;
 
-StaticJsonDocument<250> json;
-char buffer[250];
+DynamicJsonDocument json(1024);
+char respuesta[250];
 
 void setup_wifi(){
   delay(10);
@@ -48,7 +48,7 @@ void callback(char* topic, byte* payload, unsigned int length){
   Serial.print("Message arrived [");
   Serial.print(topic);
   Serial.print("] ");
-  for(int i = 0; i < length; i++){
+  for(int i=0; i<length; i++){
     Serial.print((char)payload[i]);
   }
   Serial.println();
@@ -64,20 +64,14 @@ void reconnect(){
   while(!client.connected()){
     Serial.print("Attempting MQTT connection...");
 
-    String clientId = "ESP8266Client-";
+    String clientId = "Blanket";
     clientId += String(random(0xffff), HEX);
 
     if(client.connect(clientId.c_str())){
-      float humedad = dht.getHumidity();
-      float temperaturaC = dht.getTemperature();
-      float temperaturaF = dht.toFahrenheit(dht.getTemperature());
-      float iCC = dht.computeHeatIndex(dht.getTemperature(), dht.getHumidity(), false);
-      float iCF = dht.computeHeatIndex(dht.toFahrenheit(dht.getTemperature()), dht.getHumidity(), true);
-
       Serial.println("connected");
 
-      createJSON(String(id), String(humedad), String(temperaturaC), String(temperaturaF), String(iCC), String(iCF));
-      client.publish("data", buffer);
+      client.publish("fei/cc1/temperatura", "temperatura");
+      client.subscribe("inTopic");
     }else{
       Serial.print("failed, rc=");
       Serial.print(client.state());
@@ -88,21 +82,22 @@ void reconnect(){
   }
 }
 
-void createJSON(String id, String humedad, String temperaturaC, String temperaturaF, String iCC, String iCF){
+void createJSON(int id){
   json.clear();
   json["id"] = id;
-  json["humedad"] = humedad;
-  json["temperaturaC"] = temperaturaC;
-  json["temperaturaF"] = temperaturaF;
-  json["iCC"] = iCC;
-  json["iCF"] = iCF;
-  json["latitud"] = 19.59;
-  json["longitud"] = -96.94;
-  serializeJson(json, buffer);
+  json["humedad"] = dht.getHumidity();
+  json["temperaturaC"] = dht.getTemperature();
+  json["temperaturaF"] = dht.toFahrenheit(dht.getTemperature());
+  json["iCC"] = dht.computeHeatIndex(dht.getTemperature(), dht.getHumidity(), false);
+  json["iCF"] = dht.computeHeatIndex(dht.toFahrenheit(dht.getTemperature()), dht.getHumidity(), true);
+  json["latitud"] = value;
+  json["longitud"] = -96.904226;
+  serializeJson(json, respuesta);
 }
 
 void setup(){
   dht.setup(DHTpin, DHTesp::DHT11);
+
   pinMode(2, OUTPUT);
   Serial.begin(115200);
   setup_wifi();
@@ -117,12 +112,11 @@ void loop(){
   client.loop();
 
   unsigned long now = millis();
-  if(now - lastMsg > 2000){
+  if(now - lastMsg > 7000){
     lastMsg = now;
-    ++value;
-    snprintf (msg, MSG_BUFFER_SIZE, "hello world #%ld", value);
-    Serial.print("Publish message: ");
-    Serial.println(msg);
-    client.publish("outTopic", msg);
+    value = value + .000015;
+
+    createJSON(id);
+    client.publish("/data", respuesta);
   }
 }

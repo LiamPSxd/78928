@@ -8,23 +8,22 @@
     <title>MQTT ESP32 Leafletjs</title>
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
-    integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
-    crossorigin=""/>
+    integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
-    integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
-    crossorigin=""></script>
+    integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
 </head>
 
 <body>
     <div id="map"></div>
 
-    <!-- <div>
+    <div>
         <label><strong>Id</strong></label>
         <label id="id">id</label>
         <br><br>
 
         <label><strong>Latitud</strong></label>
-        <label id="longitud">latitud</label>
+        <label id="latitud">latitud</label>
         <br><br>
 
         <label><strong>Longitud</strong></label>
@@ -35,29 +34,26 @@
         <label id="humedad">humedad</label>
         <br><br>
 
-        <label><strong>Temperatura Celcius</strong></label>
+        <label><strong>Temperatura Celsius</strong></label>
         <label id="tempC">tempC</label>
         <br><br>
 
-		<label><strong>Temperatura Far</strong></label>
-        <label id="tempC">tempC</label>
+		<label><strong>Temperatura Fahrenheit</strong></label>
+        <label id="tempF">tempF</label>
         <br><br>
 
-        <label>Mensaje</label>
-        <label>Mensaje</label>
+        <label><strong>Índice Corporal Celsius</strong></label>
+        <label id="iCC">iCC</label>
         <br><br>
 
-		<label>Longitud</label>
-        <label>Longitud</label>
+		<label><strong>Índice Corporal Fahrenheit</strong></label>
+        <label id="iCF">iCF</label>
         <br><br>
 
-        <label>Mensaje</label>
-        <label>Mensaje</label>
-        <br><br>
-
-        <button type="submit" onclick="updateData()">Actualizar</button>
-    </div> -->
+        <button onclick="enviar()">Actualizar Datos</button>
+    </div>
 
     <script src="index.js"></script>
 </body>
+
 </html>

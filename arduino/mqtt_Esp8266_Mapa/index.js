@@ -1,63 +1,55 @@
 // MQTT
-const cliente = "Liam";
-// client = new Paho.MQTT.Client("192.168.246.77", 9001, cliente);
-client = new Paho.MQTT.Client("ip172-18-0-53-ch5v53qe69v000f953ig@direct.labs.play-with-docker.com", 9001, cliente);
+client = new Paho.MQTT.Client("192.168.246.237", 9001, "Liam");
 
 client.onConnectionLost = onConnectionLost;
 client.onMessageArrived = onMessageArrived;
 
-client.connect({onSuccess:onConnect});
+client.connect({ onSuccess:onConnect });
 
-function onConnect() {
+function onConnect(){
   console.log("onConnect");
-  client.subscribe("World");
+  client.subscribe("/data");
   message = new Paho.MQTT.Message("Hello");
   message.destinationName = "World";
 }
 
-function onConnectionLost(responseObject) {
-  if (responseObject.errorCode !== 0) {
-    console.log("onConnectionLost:"+responseObject.errorMessage);
-  }
+function onConnectionLost(responseObject){
+  if(responseObject.errorCode !== 0)
+    console.log("onConnectionLost:" + responseObject.errorMessage);
 }
 
-function onMessageArrived(message) {
-    enviar(message.payloadString);
-    console.log("onMessageArrived:"+message.payloadString);
-}
+function onMessageArrived(message){
+    var data = JSON.parse(message.payloadString);
 
-function sendMessage(){
-    client.subscribe("data");
-    message = new Paho.MQTT.Message(`${cliente}: ${document.getElementById("mensaje").value}`);
-    message.destinationName = "data";
-    client.send(message);
+    document.getElementById("id").innerHTML = data.id;
+    document.getElementById("latitud").innerHTML = data.latitud;
+    document.getElementById("longitud").innerHTML = data.longitud;
+    document.getElementById("humedad").innerHTML = data.humedad;
+    document.getElementById("tempC").innerHTML = data.temperaturaC;
+    document.getElementById("tempF").innerHTML = data.temperaturaF;
+    document.getElementById("iCC").innerHTML = data.iCC;
+    document.getElementById("iCF").innerHTML = data.iCF;
 
-    document.getElementById("mensaje").value = "";
+    enviar();
 }
 
 // LEAFLETJS
-var map = L.map('map').setView([19.5324, -96.91589], 13);
+var map = L.map('map').setView([19.546440, -96.904226], 13);
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
-var marker = null;
+var marker = new L.Marker([0, 0]).addTo(map);
 
-const enviar = (message) => {
-    const lat = document.getElementById("lat").value;
-    const lon = document.getElementById("lon").value;
-    const mensaje = document.getElementById("mensaje").value;
+const enviar = () => {
+    const id = document.getElementById("id").value;
+    const humedad = document.getElementById("humedad").value;
 
-    marker = L.marker([message.latitud, message.longitud]).addTo(map);
-    marker.bindPopup(`<b>${message.id}</b><br><strong>Humedad</strong>${humedad}`).openPopup();
-
-    resetear();
-};
-
-const resetear = () => {
-    document.getElementById("lat").value = "";
-    document.getElementById("lon").value = "";
-    document.getElementById("mensaje").value = "";
+    marker.setLatLng(L.latLng(
+      document.getElementById("latitud").value,
+      document.getElementById("longitud").value
+    ));
+    marker.bindPopup(`<b>${id}</b><br><strong>Humedad</strong>${humedad}`).openPopup();
 };

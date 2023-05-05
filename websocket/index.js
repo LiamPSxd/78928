@@ -1,5 +1,5 @@
 // Create a client instance
-client = new Paho.MQTT.Client("http://ip172-18-0-41-ch0o7nosf2q000el16r0-9002.direct.labs.play-with-docker.com/", 9001, "Liam");
+client = new Paho.MQTT.Client("192.168.246.237", 9001, "Liam");
 
 // set callback handlers
 client.onConnectionLost = onConnectionLost;
